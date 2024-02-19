@@ -12,5 +12,6 @@ export interface Income {
 	name: string;
 	price: string;
 	category: string;
+	note: string;
 	id: string;
 }

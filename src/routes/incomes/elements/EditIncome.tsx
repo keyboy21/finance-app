@@ -1,8 +1,10 @@
 import { Button, Select, SelectItem } from '@tremor/react';
-import { BadgePlus, Save, XCircle } from 'lucide-react';
+import { Save, SquarePen, XCircle } from 'lucide-react';
+import { FC } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { useRevalidator } from 'react-router-dom';
 import { useSWRConfig } from 'swr';
-import { createExpense } from '~/api/expense/create.expense.api';
+import { editIncome } from '~/api/income/edit.income.api';
 import { Form } from '~/components/form/Form';
 import { FormField } from '~/components/form/FormField';
 import { Input } from '~/components/form/Input';
@@ -16,25 +18,25 @@ import {
 } from '~/components/ui/Sheet';
 import { useModal } from '~/hooks/useModal';
 import { notify } from '~/libs/notify.lib';
+import { Income } from '~/types/all.types';
 
-const CreateExpense = () => {
+const EditIncome: FC<EditIncomeProps> = ({ id, income }) => {
 	const { mutate } = useSWRConfig();
 	const { close, open, visible } = useModal();
+	const { revalidate } = useRevalidator();
+	const { register, handleSubmit, control } = useForm<CreateIncomeForm>();
 
-	const { register, handleSubmit, control, reset } =
-		useForm<CreateExpenseForm>();
-
-	const onSave = async (formData: CreateExpenseForm) => {
-		close();
-		reset();
-		const res = await createExpense(formData);
+	const onSave = async (formData: CreateIncomeForm) => {
+		const res = await editIncome(id, formData);
 		if (res.data) {
-			mutate('/expenses');
-			notify('Расход успешно создан', {
+			close();
+			mutate('/incomes');
+			notify('Доход успешно изменена', {
 				type: 'success',
 			});
+			revalidate();
 		} else {
-			notify('Расход не создан', {
+			notify('Доход не изменена', {
 				type: 'error',
 			});
 		}
@@ -42,12 +44,12 @@ const CreateExpense = () => {
 
 	return (
 		<Sheet onClose={open} open={visible} modal>
-			<Button onClick={open} className="w-fit" icon={BadgePlus} color="green">
-				Создать новый расход
+			<Button onClick={open} icon={SquarePen} color="yellow">
+				Редактировать
 			</Button>
 			<SheetContent onClose={close}>
 				<SheetHeader>
-					<SheetTitle>Создать новый расход</SheetTitle>
+					<SheetTitle>Редактировать Доход</SheetTitle>
 				</SheetHeader>
 				<div className="grid gap-4 py-4">
 					<Form
@@ -56,11 +58,17 @@ const CreateExpense = () => {
 					>
 						<FormField>
 							<Label required>Имя</Label>
-							<Input placeholder="car" required {...register('name')} />
+							<Input
+								defaultValue={income.name}
+								placeholder="car"
+								required
+								{...register('name')}
+							/>
 						</FormField>
 						<FormField>
 							<Label required>Цена</Label>
 							<Input
+								defaultValue={income.price}
 								required
 								placeholder="500"
 								type="number"
@@ -72,13 +80,13 @@ const CreateExpense = () => {
 							<Controller
 								control={control}
 								name="category"
-								defaultValue="asd"
+								defaultValue={income.category}
 								render={({ field: { onChange, value } }) => (
 									<Select
 										onValueChange={onChange}
 										value={value}
 										required
-										defaultValue="home"
+										defaultValue={income.category}
 									>
 										<SelectItem value="home">Дом</SelectItem>
 										<SelectItem value="childrens">Для детей</SelectItem>
@@ -89,8 +97,9 @@ const CreateExpense = () => {
 							/>
 						</FormField>
 						<FormField>
-							<Label required>Note</Label>
+							<Label required>Заметка</Label>
 							<Input
+								defaultValue={income.note}
 								required
 								placeholder="some note"
 								type="text"
@@ -99,7 +108,7 @@ const CreateExpense = () => {
 						</FormField>
 						<SheetFooter className="flex gap-3">
 							<Button color="green" icon={Save} type="submit">
-								Создать
+								Изменить
 							</Button>
 							<Button onClick={close} color="red" icon={XCircle}>
 								Отмена
@@ -112,11 +121,16 @@ const CreateExpense = () => {
 	);
 };
 
-export default CreateExpense;
+export default EditIncome;
 
-export interface CreateExpenseForm {
+export interface CreateIncomeForm {
 	name: string;
 	price: number;
 	category: string;
 	note: string;
 }
+
+type EditIncomeProps = {
+	id: string;
+	income: Income;
+};

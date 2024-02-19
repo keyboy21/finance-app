@@ -2,7 +2,7 @@ import { Button, Select, SelectItem } from '@tremor/react';
 import { BadgePlus, Save, XCircle } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
 import { useSWRConfig } from 'swr';
-import { createExpense } from '~/api/expense/create.expense.api';
+import { createIncome } from '~/api/income/create.income.api';
 import { Form } from '~/components/form/Form';
 import { FormField } from '~/components/form/FormField';
 import { Input } from '~/components/form/Input';
@@ -17,24 +17,24 @@ import {
 import { useModal } from '~/hooks/useModal';
 import { notify } from '~/libs/notify.lib';
 
-const CreateExpense = () => {
+const CreateIncome = () => {
 	const { mutate } = useSWRConfig();
 	const { close, open, visible } = useModal();
 
 	const { register, handleSubmit, control, reset } =
-		useForm<CreateExpenseForm>();
+		useForm<CreateIncomeForm>();
 
-	const onSave = async (formData: CreateExpenseForm) => {
+	const onSave = async (formData: CreateIncomeForm) => {
 		close();
 		reset();
-		const res = await createExpense(formData);
+		const res = await createIncome(formData);
 		if (res.data) {
-			mutate('/expenses');
-			notify('Расход успешно создан', {
+			mutate('/incomes');
+			notify('Доход успешно создан', {
 				type: 'success',
 			});
 		} else {
-			notify('Расход не создан', {
+			notify('Доход не создан', {
 				type: 'error',
 			});
 		}
@@ -43,11 +43,11 @@ const CreateExpense = () => {
 	return (
 		<Sheet onClose={open} open={visible} modal>
 			<Button onClick={open} className="w-fit" icon={BadgePlus} color="green">
-				Создать новый расход
+				Создать новый доход
 			</Button>
 			<SheetContent onClose={close}>
 				<SheetHeader>
-					<SheetTitle>Создать новый расход</SheetTitle>
+					<SheetTitle>Создать новый доход</SheetTitle>
 				</SheetHeader>
 				<div className="grid gap-4 py-4">
 					<Form
@@ -78,18 +78,18 @@ const CreateExpense = () => {
 										onValueChange={onChange}
 										value={value}
 										required
-										defaultValue="home"
+										defaultValue="salary"
 									>
-										<SelectItem value="home">Дом</SelectItem>
-										<SelectItem value="childrens">Для детей</SelectItem>
-										<SelectItem value="taxes">Налоги</SelectItem>
-										<SelectItem value="medical">Для медицинского</SelectItem>
+										<SelectItem value="salary">Зарплата</SelectItem>
+										<SelectItem value="dividentы">Дивиденды</SelectItem>
+										<SelectItem value="stock">Акции</SelectItem>
+										<SelectItem value="royalties">Гонорары </SelectItem>
 									</Select>
 								)}
 							/>
 						</FormField>
 						<FormField>
-							<Label required>Note</Label>
+							<Label required>Заметка</Label>
 							<Input
 								required
 								placeholder="some note"
@@ -112,9 +112,9 @@ const CreateExpense = () => {
 	);
 };
 
-export default CreateExpense;
+export default CreateIncome;
 
-export interface CreateExpenseForm {
+export interface CreateIncomeForm {
 	name: string;
 	price: number;
 	category: string;

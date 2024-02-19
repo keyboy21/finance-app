@@ -3,7 +3,7 @@ import { Save, SquarePen, XCircle } from 'lucide-react';
 import { FC } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useSWRConfig } from 'swr';
-import { editExpense } from '~/api/edit.expense.api';
+import { editExpense } from '~/api/expense/edit.expense.api';
 import { Form } from '~/components/form/Form';
 import { FormField } from '~/components/form/FormField';
 import { Input } from '~/components/form/Input';
@@ -11,7 +11,6 @@ import { Label } from '~/components/form/Label';
 import {
 	Sheet,
 	SheetContent,
-	SheetDescription,
 	SheetFooter,
 	SheetHeader,
 	SheetTitle,
@@ -19,23 +18,24 @@ import {
 import { useModal } from '~/hooks/useModal';
 import { notify } from '~/libs/notify.lib';
 import { Expense } from '~/types/all.types';
+import { useRevalidator } from 'react-router-dom';
 
 const EditExpense: FC<EditExpenseProps> = ({ id, expense }) => {
 	const { mutate } = useSWRConfig();
 	const { close, open, visible } = useModal();
+	const { revalidate } = useRevalidator();
 
-	const { register, handleSubmit, control, reset } =
-		useForm<CreateExpenseForm>();
+	const { register, handleSubmit, control } = useForm<CreateExpenseForm>();
 
 	const onSave = async (formData: CreateExpenseForm) => {
-		close();
-		reset();
 		const res = await editExpense(id, formData);
 		if (res.data) {
+			close();
 			mutate('/expenses');
 			notify('Расход успешно изменена', {
 				type: 'success',
 			});
+			revalidate();
 		} else {
 			notify('Расход не изменена', {
 				type: 'error',
@@ -50,10 +50,7 @@ const EditExpense: FC<EditExpenseProps> = ({ id, expense }) => {
 			</Button>
 			<SheetContent onClose={close}>
 				<SheetHeader>
-					<SheetTitle>Edit profile</SheetTitle>
-					<SheetDescription>
-						Make changes to your profile here. Click save when you're done.
-					</SheetDescription>
+					<SheetTitle>Редактировать Расход</SheetTitle>
 				</SheetHeader>
 				<div className="grid gap-4 py-4">
 					<Form

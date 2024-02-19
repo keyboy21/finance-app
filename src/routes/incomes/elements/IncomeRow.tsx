@@ -8,15 +8,15 @@ import {
 import { NotebookText, Trash2, XCircle } from 'lucide-react';
 import { FC, useState } from 'react';
 import { useSWRConfig } from 'swr';
-import { deleteExpense } from '~/api/expense/delete.expense.api';
+import { deleteIncome } from '~/api/income/delete.income.api';
 import { Heading } from '~/components/typography/Heading';
 import { Text } from '~/components/typography/Text';
 import { notify } from '~/libs/notify.lib';
 import { time } from '~/libs/time.lib';
-import { Expense } from '~/types/all.types';
-import EditExpense from './EditExpense';
+import { Income } from '~/types/all.types';
+import EditIncome from './EditIncome';
 
-const ExpenseRow: FC<ExpenseRowProps> = ({ expense }) => {
+const IncomeRow: FC<IncomeRowProps> = ({ income }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isDeleteOpen, setDeleteIsOpen] = useState(false);
 
@@ -24,14 +24,14 @@ const ExpenseRow: FC<ExpenseRowProps> = ({ expense }) => {
 
 	const onDelete = async (id: string) => {
 		setDeleteIsOpen(false);
-		const res = await deleteExpense(id);
+		const res = await deleteIncome(id);
 		if (res.data) {
-			mutate('/expenses');
-			notify('Расход успешно удалень', {
+			mutate('/incomes');
+			notify('Доход успешно удалень', {
 				type: 'success',
 			});
 		} else {
-			notify('Расход не удалень', {
+			notify('Доход не удалень', {
 				type: 'error',
 			});
 		}
@@ -39,13 +39,13 @@ const ExpenseRow: FC<ExpenseRowProps> = ({ expense }) => {
 
 	return (
 		<>
-			<TableRow className="gap-5 *:text-black" key={expense.id}>
-				<TableCell className="w-5 ">{expense.id}</TableCell>
-				<TableCell>{expense.name}</TableCell>
-				<TableCell>{expense.price} $</TableCell>
-				<TableCell className="w-5">{expense.category}</TableCell>
+			<TableRow className="gap-5 *:text-black" key={income.id}>
+				<TableCell className="w-5 ">{income.id}</TableCell>
+				<TableCell>{income.name}</TableCell>
+				<TableCell>{income.price} $</TableCell>
+				<TableCell className="w-5">{income.category}</TableCell>
 				<TableCell className="w-5">
-					{time(expense.createdAt).format('DD-MM-YYYY')}
+					{time(income.createdAt).format('DD-MM-YYYY')}
 				</TableCell>
 				<TableCell className="w-5">
 					<Button
@@ -58,9 +58,9 @@ const ExpenseRow: FC<ExpenseRowProps> = ({ expense }) => {
 					<Dialog open={isOpen} onClose={(val) => setIsOpen(val)} static={true}>
 						<DialogPanel>
 							<Heading className="text-lg font-semibold text-tremor-content-strong text-center">
-								Примечание к расходам
+								Примечание к доходам
 							</Heading>
-							<Text className="mt-2 text-center">{expense.note}</Text>
+							<Text className="mt-2 text-center">{income.note}</Text>
 						</DialogPanel>
 					</Dialog>
 				</TableCell>
@@ -73,7 +73,7 @@ const ExpenseRow: FC<ExpenseRowProps> = ({ expense }) => {
 						>
 							Удалить
 						</Button>
-						<EditExpense id={expense.id} expense={expense} />
+						<EditIncome id={income.id} income={income} />
 					</div>
 					<Dialog
 						open={isDeleteOpen}
@@ -97,7 +97,7 @@ const ExpenseRow: FC<ExpenseRowProps> = ({ expense }) => {
 									icon={Trash2}
 									color="red"
 									className="mt-8"
-									onClick={() => onDelete(expense.id)}
+									onClick={() => onDelete(income.id)}
 								>
 									Удалить
 								</Button>
@@ -110,8 +110,8 @@ const ExpenseRow: FC<ExpenseRowProps> = ({ expense }) => {
 	);
 };
 
-export default ExpenseRow;
+export default IncomeRow;
 
-type ExpenseRowProps = {
-	expense: Expense;
+type IncomeRowProps = {
+	income: Income;
 };

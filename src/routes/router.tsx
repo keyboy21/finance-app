@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import { RootLayout } from '~/layouts';
 import { HomePage } from '~/routes/home';
-import { IncomePage } from '~/routes/incomes';
+import { IncomesPage } from '~/routes/incomes';
 import { ExpensesPage } from './expenses';
 
 export const router = createBrowserRouter([
@@ -32,7 +32,7 @@ export const router = createBrowserRouter([
 		children: [
 			{
 				path: '/incomes',
-				element: <IncomePage />,
+				element: <IncomesPage />,
 			},
 		],
 	},
