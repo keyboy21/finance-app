@@ -1,37 +1,37 @@
-import { createBrowserRouter } from "react-router-dom";
-import { RootLayout } from "~/layouts";
-import { HomePage } from "~/routes/home";
-import { IncomePage } from "~/routes/incomes";
-import { ExpensesPage } from "./expenses";
+import { createBrowserRouter } from 'react-router-dom';
+import { RootLayout } from '~/layouts';
+import { HomePage } from '~/routes/home';
+import { IncomePage } from '~/routes/incomes';
+import { ExpensesPage } from './expenses';
 
 export const router = createBrowserRouter([
 	{
-		path: "/",
+		path: '/',
 		element: <RootLayout />,
 		children: [
 			{
-				path: "/",
+				path: '/',
 				element: <HomePage />,
 			},
 		],
 	},
 
 	{
-		path: "/expenses",
+		path: '/expenses',
 		element: <RootLayout />,
 		children: [
 			{
-				path: "/expenses",
+				path: '/expenses',
 				element: <ExpensesPage />,
 			},
 		],
 	},
 	{
-		path: "/incomes",
+		path: '/incomes',
 		element: <RootLayout />,
 		children: [
 			{
-				path: "/incomes",
+				path: '/incomes',
 				element: <IncomePage />,
 			},
 		],

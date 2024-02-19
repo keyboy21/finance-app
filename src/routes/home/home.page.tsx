@@ -1,7 +1,7 @@
-import { Container } from "~/components/ui/Container";
-import { useForm, Controller } from "react-hook-form";
-import { Heading } from "~/components/typography/Heading";
-import { useNavigate } from "react-router-dom";
+import { Container } from '~/components/ui/Container';
+import { Heading } from '~/components/typography/Heading';
+import useSWR from 'swr';
+import { fetcher } from '~/api/fetchet';
 
 export interface SelectTypeForm {
 	type: string;
@@ -10,8 +10,16 @@ export interface SelectTypeForm {
 }
 
 export const HomePage = () => {
-	const navigate = useNavigate();
-	const { register, handleSubmit, control } = useForm<SelectTypeForm>();
+	// const { register, handleSubmit, control } = useForm<SelectTypeForm>();
+
+	// Step 2: Use the useSWR hook to fetch the data
+	const { data, error } = useSWR('/expenses', fetcher);
+
+	// Step 3: Handle loading and error states
+	if (error) return <div>Error fetching data</div>;
+	if (!data) return <div>Loading...</div>;
+
+	console.log('asdasd', data);
 
 	return (
 		<section className="py-10">

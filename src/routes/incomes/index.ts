@@ -1,1 +1,1 @@
-export * from './incomes.page'
+export * from './incomes.page';

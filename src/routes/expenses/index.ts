@@ -1,1 +1,1 @@
-export * from './expenses.page'
+export * from './expenses.page';
