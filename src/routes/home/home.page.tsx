@@ -1,25 +1,120 @@
 import { Container } from '~/components/ui/Container';
 import { Heading } from '~/components/typography/Heading';
-import useSWR from 'swr';
+import DateSelect from './elements/DateSelect';
 import { fetcher } from '~/api/fetchet';
+import useSWR from 'swr';
+import { Expense, Income } from '~/types/all.types';
+import { AreaChart, Divider, DonutChart } from '@tremor/react';
+import Loading from './elements/Loading';
+// import { useLocation } from 'react-router-dom';
 
-export interface SelectTypeForm {
-	type: string;
-	amount: number;
-	difficulty: string;
-}
+// Note: If backend can sendig all expenses and
+// incomes by date we can implement fetching by date, that user
+// can see expenses by date
+
+// My fake backend cannot send expense and income by month,
+// that is why I implemen static data
+const chartdata = [
+	{
+		date: 'Jan 22',
+		Расход: 2890,
+		Доход: 2338,
+	},
+	{
+		date: 'Feb 22',
+		Расход: 2756,
+		Доход: 2103,
+	},
+	{
+		date: 'Mar 22',
+		Расход: 3322,
+		Доход: 2194,
+	},
+	{
+		date: 'Apr 22',
+		Расход: 3470,
+		Доход: 2108,
+	},
+	{
+		date: 'May 22',
+		Расход: 3475,
+		Доход: 1812,
+	},
+	{
+		date: 'Jun 22',
+		Расход: 3129,
+		Доход: 1726,
+	},
+	{
+		date: 'Jul 22',
+		Расход: 3490,
+		Доход: 1982,
+	},
+	{
+		date: 'Aug 22',
+		Расход: 2903,
+		Доход: 2012,
+	},
+	{
+		date: 'Sep 22',
+		Расход: 2643,
+		Доход: 2342,
+	},
+	{
+		date: 'Oct 22',
+		Расход: 2837,
+		Доход: 2473,
+	},
+	{
+		date: 'Nov 22',
+		Расход: 2954,
+		Доход: 3848,
+	},
+	{
+		date: 'Dec 22',
+		Расход: 3239,
+		Доход: 3736,
+	},
+];
 
 export const HomePage = () => {
-	// const { register, handleSubmit, control } = useForm<SelectTypeForm>();
+	// const location = useLocation();
+	// const { from, to } = location.state as queryParams;
 
-	// Step 2: Use the useSWR hook to fetch the data
-	const { data, error } = useSWR('/expenses', fetcher);
+	const { data: expense, error: expenseError } = useSWR<Expense[]>(
+		'/expenses',
+		fetcher,
+	);
+	const { data: income, error: incomeError } = useSWR<Income[]>(
+		'/incomes',
+		fetcher,
+	);
 
-	// Step 3: Handle loading and error states
-	if (error) return <div>Error fetching data</div>;
-	if (!data) return <div>Loading...</div>;
+	if (expenseError && incomeError) return <div>Error fetching data</div>;
+	if (!expense && !income) return <Loading />;
 
-	console.log('asdasd', data);
+	const expenseSum =
+		expense?.reduce(
+			(accumulator, currentValue) => accumulator + +currentValue.price,
+			0,
+		) ?? 0;
+
+	const incomesSum =
+		income?.reduce(
+			(accumulator, currentValue) => accumulator + +currentValue.price,
+			0,
+		) ?? 0;
+
+	const data = [
+		{
+			name: 'Расход',
+			value: expenseSum,
+		},
+		{
+			name: 'Доход',
+			value: incomesSum,
+		},
+	];
 
 	return (
 		<section className="py-10">
@@ -27,56 +122,36 @@ export const HomePage = () => {
 				<Heading className="text-center" level={1} as="h1">
 					Главная страница
 				</Heading>
-
-				{/* <Form
-					className="flex flex-col gap-y-5 mx-auto w-2/5"
-					onSubmit={handleSubmit(startQuiz)}
-				>
-					<Input defaultValue={10} {...register("amount")} type="number" />
-					<Controller
-						control={control}
-						name="type"
-						defaultValue="multiple"
-						render={({ field: { onChange, value } }) => (
-							<Select onValueChange={onChange} value={value} name="type">
-								<SelectTrigger className="w-full">
-									<SelectValue placeholder="Select type" />
-								</SelectTrigger>
-								<SelectContent>
-									<SelectItem value="multiple">Multiple</SelectItem>
-									<SelectItem value="boolean">True / False</SelectItem>
-								</SelectContent>
-							</Select>
-						)}
+				<div className="flex w-fit mx-auto gap-5">
+					<DateSelect />
+				</div>
+				<div className="flex flex-col gap-5">
+					<Heading className="text-center" level={3} as="h2">
+						Обший доход и расход
+					</Heading>
+					<DonutChart data={data} variant="pie" />
+				</div>
+				<Divider />
+				<div className="flex flex-col">
+					<Heading className="text-center" level={3} as="h2">
+						Обший доход и расход
+					</Heading>
+					<AreaChart
+						className="h-80"
+						data={chartdata}
+						index="date"
+						categories={['Расход', 'Доход']}
+						colors={['indigo', 'rose']}
+						yAxisWidth={60}
+						onValueChange={(v) => console.log(v)}
 					/>
-					<Controller
-						control={control}
-						name="difficulty"
-						defaultValue="easy"
-						render={({ field: { onChange, value } }) => (
-							<Select
-								defaultValue="easy"
-								onValueChange={onChange}
-								value={value}
-								name="type"
-							>
-								<SelectTrigger className="w-full">
-									<SelectValue placeholder="Select type" />
-								</SelectTrigger>
-								<SelectContent>
-									<SelectItem value="easy">Easy</SelectItem>
-									<SelectItem value="medium">Medium</SelectItem>
-									<SelectItem value="hard">Hard</SelectItem>
-								</SelectContent>
-							</Select>
-						)}
-					/>
-
-					<Button className="w-full" type="submit">
-						Start
-					</Button>
-				</Form> */}
+				</div>
 			</Container>
 		</section>
 	);
 };
+
+// interface queryParams {
+// 	from: Date | undefined;
+// 	to: Date | undefined;
+// }

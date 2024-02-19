@@ -6,6 +6,7 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
 ![Tailwindcss](https://img.shields.io/badge/Tailwindcss-0ea5e9?style=for-the-badge&logo=tailwindcss&logoColor=white)
 ![Radixui](https://img.shields.io/badge/Radix-030712?style=for-the-badge&logo=radixui&logoColor=white)
+![Tremor](https://img.shields.io/badge/Tremor-030712?style=for-the-badge&logo=Tremor.so&logoColor=white)
 
 ### Setting up Dev
 
