@@ -43,7 +43,9 @@ export const RootLayout = () => {
 					</Link>
 				</Container>
 			</header>
-			<Outlet />
+			<main>
+				<Outlet />
+			</main>
 			<Toaster />
 		</Fragment>
 	);

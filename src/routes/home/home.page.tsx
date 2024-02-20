@@ -134,7 +134,7 @@ export const HomePage = () => {
 				<Divider />
 				<div className="flex flex-col">
 					<Heading className="text-center" level={3} as="h2">
-						Обший доход и расход
+						Обший доход и расход по датам
 					</Heading>
 					<AreaChart
 						className="h-80"

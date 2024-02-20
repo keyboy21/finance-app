@@ -7,10 +7,12 @@
     "dev": "vite",
     "check-types": "npx tsc --pretty --noEmit",
     "build": "tsc && vite build",
+    "start": "vite",
     "preview": "vite preview",
-    "lint": "npx @biomejs/biome lint ./",
+    "lint": "npx @biomejs/biome lint ./src",
     "format:check": "npx @biomejs/biome check ./src",
-    "format": "npx @biomejs/biome format --write ./src"
+    "format": "npx @biomejs/biome format --write ./src",
+    "play:e2e": "npx playwright test"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.18",
@@ -35,6 +37,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.5.3",
+    "@playwright/test": "^1.41.2",
     "@tailwindcss/forms": "^0.5.7",
     "@types/node": "^20.8.4",
     "@types/react": "^18.2.15",
