@@ -2,8 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test('has header and links, texts', async ({ page }) => {
 	await page.goto('/');
-	const header = await page.$('header');
-	await expect(header).not.toBe(null);
+	await expect(page.locator('header')).not.toBe(null);
 
 	// home link and text
 	const Homelink = await page.locator('header > div > a').nth(0);
@@ -15,7 +14,7 @@ test('has header and links, texts', async ({ page }) => {
 	const Expenselink = await page.locator('header > div > a').nth(1);
 	const expenseshrefAttributeValue = await Expenselink.getAttribute('href');
 	await expect(expenseshrefAttributeValue).toBe('/expenses');
-	await expect(Expenselink).toHaveText('Расходы');
+	expect(Expenselink).toHaveText('Расходы');
 
 	// income link
 	const Incomeslink = await page.locator('header > div > a').nth(2);

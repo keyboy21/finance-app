@@ -1,4 +1,4 @@
-import { Button, Select, SelectItem } from '@tremor/react';
+import { Button, Select, SelectItem, Textarea } from '@tremor/react';
 import { Save, SquarePen, XCircle } from 'lucide-react';
 import { FC } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -99,11 +99,11 @@ const EditExpense: FC<EditExpenseProps> = ({ id, expense }) => {
 						</FormField>
 						<FormField>
 							<Label required>Note</Label>
-							<Input
+							<Textarea
+								className='h-24'
 								defaultValue={expense.note}
 								required
 								placeholder="some note"
-								type="text"
 								{...register('note')}
 							/>
 						</FormField>

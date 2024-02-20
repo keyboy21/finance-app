@@ -1,4 +1,4 @@
-import { Button, Select, SelectItem } from '@tremor/react';
+import { Button, Select, SelectItem, Textarea } from '@tremor/react';
 import { BadgePlus, Save, XCircle } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
 import { useSWRConfig } from 'swr';
@@ -90,10 +90,10 @@ const CreateExpense = () => {
 						</FormField>
 						<FormField>
 							<Label required>Note</Label>
-							<Input
+							<Textarea
+								className='h-24'
 								required
 								placeholder="some note"
-								type="text"
 								{...register('note')}
 							/>
 						</FormField>
