@@ -39,15 +39,36 @@ test('create income', async ({ page }) => {
 	).toContainText('test name for income');
 });
 
-test('delete income', async ({ page }) => {
+test('edit income', async ({ page }) => {
 	await page.goto('/incomes');
 	await page
 		.getByRole('row', { name: 'test name for income 300' })
+		.getByRole('button')
+		.nth(2)
+		.click();
+	await page.getByPlaceholder('car').click();
+	await page.getByPlaceholder('car').fill('edit for test');
+	await page.getByPlaceholder('500').dblclick();
+	await page.getByPlaceholder('500').fill('600');
+	await page.getByRole('button', { name: 'Select...' }).click();
+	await page.getByRole('option', { name: 'Дом' }).click();
+	await page.getByTestId('text-area').click();
+	await page.getByTestId('text-area').fill('some note for edit test');
+	await page.getByRole('button', { name: 'Изменить' }).click();
+	await expect(
+		page.getByRole('row', { name: 'edit for test 600' }),
+	).toBeVisible();
+});
+
+test('delete income', async ({ page }) => {
+	await page.goto('/incomes');
+	await page
+		.getByRole('row', { name: 'edit for test 600' })
 		.getByRole('button')
 		.nth(1)
 		.click();
 	await page.getByRole('button', { name: 'Удалить' }).click();
 	await expect(
-		page.getByRole('row', { name: 'test name for income 300' }),
+		page.getByRole('row', { name: 'edit for test 600' }),
 	).not.toBeVisible();
 });
