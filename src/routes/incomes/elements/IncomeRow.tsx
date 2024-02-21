@@ -14,9 +14,9 @@ import { Text } from '~/components/typography/Text';
 import { notify } from '~/libs/notify.lib';
 import { time } from '~/libs/time.lib';
 import { Income } from '~/types/all.types';
-import EditIncome from './EditIncome';
+import { EditIncome } from './EditIncome';
 
-const IncomeRow: FC<IncomeRowProps> = ({ income }) => {
+export const IncomeRow: FC<IncomeRowProps> = ({ income }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isDeleteOpen, setDeleteIsOpen] = useState(false);
 
@@ -109,8 +109,6 @@ const IncomeRow: FC<IncomeRowProps> = ({ income }) => {
 		</>
 	);
 };
-
-export default IncomeRow;
 
 type IncomeRowProps = {
 	income: Income;

@@ -1,9 +1,9 @@
-import { defineConfig } from 'vite';
+import { defineConfig, splitVendorChunkPlugin } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 
 export default defineConfig({
-	plugins: [react()],
+	plugins: [splitVendorChunkPlugin(), react()],
 	server: {
 		port: 3000,
 	},

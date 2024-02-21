@@ -1,15 +1,14 @@
 import { BarChart4, TrendingDown, TrendingUp } from 'lucide-react';
-import { Fragment } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import { Toaster } from 'sonner';
 import { Container } from '~/components/ui/Container';
 import { useLocation } from 'react-router-dom';
 import { cn } from '~/libs/cn.lib';
 
-export const RootLayout = () => {
+const RootLayout = () => {
 	const location = useLocation();
 	return (
-		<Fragment>
+		<>
 			<header className="sticky top-0 z-10 border-b bg-white py-4">
 				<Container className="flex items-center justify-between">
 					<Link
@@ -47,6 +46,8 @@ export const RootLayout = () => {
 				<Outlet />
 			</main>
 			<Toaster />
-		</Fragment>
+		</>
 	);
 };
+
+export default RootLayout

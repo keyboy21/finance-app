@@ -20,7 +20,7 @@ import { notify } from '~/libs/notify.lib';
 import { Expense } from '~/types/all.types';
 import { useRevalidator } from 'react-router-dom';
 
-const EditExpense: FC<EditExpenseProps> = ({ id, expense }) => {
+export const EditExpense: FC<EditExpenseProps> = ({ id, expense }) => {
 	const { mutate } = useSWRConfig();
 	const { close, open, visible } = useModal();
 	const { revalidate } = useRevalidator();
@@ -121,8 +121,6 @@ const EditExpense: FC<EditExpenseProps> = ({ id, expense }) => {
 		</Sheet>
 	);
 };
-
-export default EditExpense;
 
 export interface CreateExpenseForm {
 	name: string;

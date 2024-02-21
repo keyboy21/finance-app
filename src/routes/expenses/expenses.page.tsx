@@ -8,15 +8,15 @@ import {
 } from '@tremor/react';
 import { DollarSign } from 'lucide-react';
 import useSWR from 'swr';
-import { fetcher } from '~/api/fetchet';
+import { fetcher } from '~/api/fetcher';
 import { Heading } from '~/components/typography/Heading';
 import { Container } from '~/components/ui/Container';
-import { Expense } from '~/types/all.types';
-import CreateExpense from './elements/CreateExpense';
-import Loading from './elements/Loading';
+import type { Expense } from '~/types/all.types';
+import { CreateExpense } from './elements/CreateExpense';
+import { Loading } from '../home/elements/Loading';
 import Tablerow from './elements/ExpenseRow';
 
-export const ExpensesPage = () => {
+const ExpensesPage = () => {
 	const { data, error } = useSWR<Expense[]>('/expenses', fetcher);
 
 	if (error) return <section>Error fetching data</section>;
@@ -65,3 +65,5 @@ export const ExpensesPage = () => {
 		</section>
 	);
 };
+
+export default ExpensesPage;

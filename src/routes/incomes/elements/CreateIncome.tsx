@@ -17,7 +17,7 @@ import {
 import { useModal } from '~/hooks/useModal';
 import { notify } from '~/libs/notify.lib';
 
-const CreateIncome = () => {
+export const CreateIncome = () => {
 	const { mutate } = useSWRConfig();
 	const { close, open, visible } = useModal();
 
@@ -111,8 +111,6 @@ const CreateIncome = () => {
 		</Sheet>
 	);
 };
-
-export default CreateIncome;
 
 export interface CreateIncomeForm {
 	name: string;

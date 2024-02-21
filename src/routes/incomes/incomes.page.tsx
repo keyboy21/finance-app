@@ -8,15 +8,15 @@ import {
 } from '@tremor/react';
 import { DollarSign } from 'lucide-react';
 import useSWR from 'swr';
-import { fetcher } from '~/api/fetchet';
+import { fetcher } from '~/api/fetcher';
 import { Heading } from '~/components/typography/Heading';
 import { Container } from '~/components/ui/Container';
 import { Income } from '~/types/all.types';
-import CreateIncome from './elements/CreateIncome';
-import Tablerow from './elements/IncomeRow';
-import Loading from './elements/Loading';
+import { CreateIncome } from './elements/CreateIncome';
+import { IncomeRow } from './elements/IncomeRow';
+import { Loading } from '../home/elements/Loading';
 
-export const IncomesPage = () => {
+const IncomesPage = () => {
 	const { data, error } = useSWR<Income[]>('/incomes', fetcher);
 
 	if (error) return <section>Error fetching data</section>;
@@ -51,7 +51,7 @@ export const IncomesPage = () => {
 						</TableHead>
 						<TableBody>
 							{data.map((income) => (
-								<Tablerow income={income} />
+								<IncomeRow income={income} />
 							))}
 						</TableBody>
 					</Table>
@@ -65,3 +65,5 @@ export const IncomesPage = () => {
 		</section>
 	);
 };
+
+export default IncomesPage;

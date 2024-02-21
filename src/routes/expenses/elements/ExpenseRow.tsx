@@ -14,9 +14,9 @@ import { Text } from '~/components/typography/Text';
 import { notify } from '~/libs/notify.lib';
 import { time } from '~/libs/time.lib';
 import { Expense } from '~/types/all.types';
-import EditExpense from './EditExpense';
+import { EditExpense } from './EditExpense';
 
-const ExpenseRow: FC<ExpenseRowProps> = ({ expense }) => {
+export const ExpenseRow: FC<ExpenseRowProps> = ({ expense }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isDeleteOpen, setDeleteIsOpen] = useState(false);
 

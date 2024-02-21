@@ -4,9 +4,9 @@ import { Form } from '~/components/form/Form';
 import { FormField } from '~/components/form/FormField';
 import { useNavigate } from 'react-router-dom';
 
-const DateSelect = () => {
+export const DateSelect = () => {
 	const navigate = useNavigate();
-    
+
 	const { register, handleSubmit, control } = useForm<getExpensesForm>({
 		defaultValues: {
 			date: {
@@ -55,8 +55,6 @@ const DateSelect = () => {
 		</Form>
 	);
 };
-
-export default DateSelect;
 
 interface getExpensesForm {
 	date: {

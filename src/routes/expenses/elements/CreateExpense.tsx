@@ -17,7 +17,7 @@ import {
 import { useModal } from '~/hooks/useModal';
 import { notify } from '~/libs/notify.lib';
 
-const CreateExpense = () => {
+export const CreateExpense = () => {
 	const { mutate } = useSWRConfig();
 	const { close, open, visible } = useModal();
 
@@ -111,8 +111,6 @@ const CreateExpense = () => {
 		</Sheet>
 	);
 };
-
-export default CreateExpense;
 
 export interface CreateExpenseForm {
 	name: string;

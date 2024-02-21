@@ -1,11 +1,11 @@
-import { Container } from '~/components/ui/Container';
-import { Heading } from '~/components/typography/Heading';
-import DateSelect from './elements/DateSelect';
-import { fetcher } from '~/api/fetchet';
-import useSWR from 'swr';
-import { Expense, Income } from '~/types/all.types';
 import { AreaChart, Divider, DonutChart } from '@tremor/react';
-import Loading from './elements/Loading';
+import useSWR from 'swr';
+import { fetcher } from '~/api/fetcher';
+import { Heading } from '~/components/typography/Heading';
+import { Container } from '~/components/ui/Container';
+import type { Expense, Income } from '~/types/all.types';
+import { DateSelect } from './elements/DateSelect';
+import { Loading } from './elements/Loading';
 // import { useLocation } from 'react-router-dom';
 
 // Note: If backend can sendig all expenses and
@@ -77,7 +77,7 @@ const chartdata = [
 	},
 ];
 
-export const HomePage = () => {
+const HomePage = () => {
 	// const location = useLocation();
 	// const { from, to } = location.state as queryParams;
 
@@ -150,6 +150,8 @@ export const HomePage = () => {
 		</section>
 	);
 };
+
+export default HomePage;
 
 // interface queryParams {
 // 	from: Date | undefined;

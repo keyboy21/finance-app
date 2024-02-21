@@ -20,7 +20,7 @@ import { useModal } from '~/hooks/useModal';
 import { notify } from '~/libs/notify.lib';
 import { Income } from '~/types/all.types';
 
-const EditIncome: FC<EditIncomeProps> = ({ id, income }) => {
+export const EditIncome: FC<EditIncomeProps> = ({ id, income }) => {
 	const { mutate } = useSWRConfig();
 	const { close, open, visible } = useModal();
 	const { revalidate } = useRevalidator();
@@ -99,7 +99,7 @@ const EditIncome: FC<EditIncomeProps> = ({ id, income }) => {
 						<FormField>
 							<Label required>Заметка</Label>
 							<Textarea
-								className='h-24'
+								className="h-24"
 								defaultValue={income.note}
 								required
 								placeholder="some note"
@@ -120,8 +120,6 @@ const EditIncome: FC<EditIncomeProps> = ({ id, income }) => {
 		</Sheet>
 	);
 };
-
-export default EditIncome;
 
 export interface CreateIncomeForm {
 	name: string;

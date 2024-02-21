@@ -1,7 +1,7 @@
 import { Container } from '~/components/ui/Container';
 import { Skeleton } from '~/components/ui/Skeleton';
 
-const Loading = () => {
+export const Loading = () => {
 	return (
 		<section className="py-10">
 			<Skeleton className="w-96 h-10 bg-slate-400 mx-auto rounded-md" />
@@ -11,5 +11,3 @@ const Loading = () => {
 		</section>
 	);
 };
-
-export default Loading;
