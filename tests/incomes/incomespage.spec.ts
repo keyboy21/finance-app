@@ -19,3 +19,35 @@ test('Incomes page test', async ({ page }) => {
 
 	await expect(page.locator('tbody')).not.toBe(null);
 });
+
+test('create income', async ({ page }) => {
+	await page.goto('/incomes');
+	await page.getByRole('button', { name: 'Создать новый доход' }).click();
+	await page.getByPlaceholder('car').click();
+	await page.getByPlaceholder('car').fill('test name for income');
+	await page.getByPlaceholder('500').click();
+	await page.getByPlaceholder('500').fill('300');
+	await page.getByRole('button', { name: 'Select...' }).click();
+	await page.getByRole('option', { name: 'Зарплата' }).click();
+	await page.getByTestId('text-area').click();
+	await page.getByTestId('text-area').fill('some note for test');
+	await page.getByRole('button', { name: 'Создать' }).click();
+	await expect(
+		page.getByRole('cell', {
+			name: 'test name for income',
+		}),
+	).toContainText('test name for income');
+});
+
+test('delete income', async ({ page }) => {
+	await page.goto('/incomes');
+	await page
+		.getByRole('row', { name: 'test name for income 300' })
+		.getByRole('button')
+		.nth(1)
+		.click();
+	await page.getByRole('button', { name: 'Удалить' }).click();
+	await expect(
+		page.getByRole('row', { name: 'test name for income 300' }),
+	).not.toBeVisible();
+});
