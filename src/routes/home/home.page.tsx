@@ -91,19 +91,17 @@ const HomePage = () => {
 	);
 
 	if (expenseError && incomeError) return <div>Error fetching data</div>;
-	if (!expense && !income) return <Loading />;
+	if (!expense || !income) return <Loading />;
 
-	const expenseSum =
-		expense?.reduce(
-			(accumulator, currentValue) => accumulator + +currentValue.price,
-			0,
-		) ?? 0;
+	const expenseSum = expense.reduce(
+		(accumulator, currentValue) => accumulator + +currentValue.price,
+		0,
+	);
 
-	const incomesSum =
-		income?.reduce(
-			(accumulator, currentValue) => accumulator + +currentValue.price,
-			0,
-		) ?? 0;
+	const incomesSum = income.reduce(
+		(accumulator, currentValue) => accumulator + +currentValue.price,
+		0,
+	);
 
 	const data = [
 		{
@@ -143,7 +141,6 @@ const HomePage = () => {
 						categories={['Расход', 'Доход']}
 						colors={['indigo', 'rose']}
 						yAxisWidth={60}
-						onValueChange={(v) => console.log(v)}
 					/>
 				</div>
 			</Container>
