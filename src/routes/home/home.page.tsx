@@ -1,9 +1,10 @@
-import { AreaChart, Divider, DonutChart } from '@tremor/react';
+import { Divider, DonutChart } from '@tremor/react';
 import useSWR from 'swr';
 import { fetcher } from '~/api/fetcher';
 import { Heading } from '~/components/typography/Heading';
 import { Container } from '~/components/ui/Container';
 import type { Expense, Income } from '~/types/all.types';
+import { CustomAreaChart } from './elements/AreaChat';
 import { DateSelect } from './elements/DateSelect';
 import { Loading } from './elements/Loading';
 // import { useLocation } from 'react-router-dom';
@@ -11,71 +12,6 @@ import { Loading } from './elements/Loading';
 // Note: If backend can sendig all expenses and
 // incomes by date we can implement fetching by date, that user
 // can see expenses by date
-
-// My fake backend cannot send expense and income by month,
-// that is why I implemen static data
-const chartdata = [
-	{
-		date: 'Jan 22',
-		Расход: 2890,
-		Доход: 2338,
-	},
-	{
-		date: 'Feb 22',
-		Расход: 2756,
-		Доход: 2103,
-	},
-	{
-		date: 'Mar 22',
-		Расход: 3322,
-		Доход: 2194,
-	},
-	{
-		date: 'Apr 22',
-		Расход: 3470,
-		Доход: 2108,
-	},
-	{
-		date: 'May 22',
-		Расход: 3475,
-		Доход: 1812,
-	},
-	{
-		date: 'Jun 22',
-		Расход: 3129,
-		Доход: 1726,
-	},
-	{
-		date: 'Jul 22',
-		Расход: 3490,
-		Доход: 1982,
-	},
-	{
-		date: 'Aug 22',
-		Расход: 2903,
-		Доход: 2012,
-	},
-	{
-		date: 'Sep 22',
-		Расход: 2643,
-		Доход: 2342,
-	},
-	{
-		date: 'Oct 22',
-		Расход: 2837,
-		Доход: 2473,
-	},
-	{
-		date: 'Nov 22',
-		Расход: 2954,
-		Доход: 3848,
-	},
-	{
-		date: 'Dec 22',
-		Расход: 3239,
-		Доход: 3736,
-	},
-];
 
 const HomePage = () => {
 	// const location = useLocation();
@@ -134,14 +70,7 @@ const HomePage = () => {
 					<Heading className="text-center" level={3} as="h2">
 						Обший доход и расход по датам
 					</Heading>
-					<AreaChart
-						className="h-80"
-						data={chartdata}
-						index="date"
-						categories={['Расход', 'Доход']}
-						colors={['indigo', 'rose']}
-						yAxisWidth={60}
-					/>
+					<CustomAreaChart expense={expense} income={income} />
 				</div>
 			</Container>
 		</section>
