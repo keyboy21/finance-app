@@ -2,7 +2,7 @@ import { Button, DateRangePicker } from '@tremor/react';
 import { Controller, useForm } from 'react-hook-form';
 import { Form } from '~/components/form/Form';
 import { FormField } from '~/components/form/FormField';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from '@tanstack/react-router';
 
 export const DateSelect = () => {
 	const navigate = useNavigate();
@@ -22,9 +22,10 @@ export const DateSelect = () => {
 		if (from && !to) {
 			endDate = new Date();
 		}
-
-		navigate('/', {
-			state: {
+		navigate({
+			to: '/',
+			replace: true,
+			params: {
 				from: from,
 				to: endDate,
 			},

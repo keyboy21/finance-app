@@ -1,9 +1,10 @@
 import { defineConfig, splitVendorChunkPlugin } from 'vite';
+import { TanStackRouterVite } from '@tanstack/router-vite-plugin';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 
 export default defineConfig({
-	plugins: [splitVendorChunkPlugin(), react()],
+	plugins: [splitVendorChunkPlugin(), react(), TanStackRouterVite()],
 	server: {
 		port: 3000,
 	},
