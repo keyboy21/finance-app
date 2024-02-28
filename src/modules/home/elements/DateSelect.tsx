@@ -1,13 +1,22 @@
-import { Button, DateRangePicker } from '@tremor/react';
-import { Controller, useForm } from 'react-hook-form';
-import { Form } from '~/components/form/Form';
-import { FormField } from '~/components/form/FormField';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from '@tanstack/react-router';
+import { Button, DateRangePicker } from '@tremor/react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { Form, FormField } from '~/components/form/Form';
 
 export const DateSelect = () => {
-	const navigate = useNavigate();
+	const navigate = useNavigate({ from: '/' });
 
-	const { register, handleSubmit, control } = useForm<getExpensesForm>({
+	const dateSchema = z.object({
+		date: z.object({
+			from: z.date().optional(),
+			to: z.date(),
+		}),
+	});
+
+	const form = useForm<z.infer<typeof dateSchema>>({
+		resolver: zodResolver(dateSchema),
 		defaultValues: {
 			date: {
 				to: new Date(),
@@ -15,51 +24,38 @@ export const DateSelect = () => {
 		},
 	});
 
-	const getExpenses = (formData: getExpensesForm) => {
-		const { from, to } = formData.date ?? {};
-
-		let endDate = to;
-		if (from && !to) {
-			endDate = new Date();
-		}
+	const getExpenses = (formData: z.infer<typeof dateSchema>) => {
+		const { from, to } = formData.date;
 		navigate({
 			to: '/',
 			replace: true,
-			params: {
+			search: {
 				from: from,
-				to: endDate,
+				to: to,
 			},
 		});
 	};
 
 	return (
-		<Form onSubmit={handleSubmit(getExpenses)}>
-			<FormField>
-				<Controller
-					control={control}
+		<Form {...form}>
+			<form onSubmit={form.handleSubmit(getExpenses)} className="space-y-5">
+				<FormField
+					control={form.control}
 					name="date"
-					render={({ field: { onChange, value } }) => (
+					render={({ field }) => (
 						<DateRangePicker
-							onValueChange={onChange}
-							value={value}
-							{...register('date')}
+							onValueChange={field.onChange}
+							value={field.value}
 							placeholder="Выберите дату"
 							enableSelect={false}
 							className="mx-auto max-w-sm"
 						/>
 					)}
 				/>
-				<Button color="lime" type="submit">
+				<Button color="lime" type="submit" className="w-full">
 					Показат
 				</Button>
-			</FormField>
+			</form>
 		</Form>
 	);
 };
-
-interface getExpensesForm {
-	date: {
-		from?: Date;
-		to?: Date;
-	};
-}
