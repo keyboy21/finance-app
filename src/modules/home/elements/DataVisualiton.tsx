@@ -6,11 +6,14 @@ import { Heading } from '~/components/typography/Heading';
 import type { Expense, Income } from '~/types/all.types';
 import { CustomChart } from './CustomChart';
 import { Loading } from './Loading';
-// import { useRouter } from '@tanstack/react-router';
+import { useSearch } from '@tanstack/react-router';
 
 export const DataVisualiton: FC = () => {
-	// const router = useRouter()
-	// router.
+	// Note: If backend can sendig all expenses and
+	// incomes by date we can implement fetching by date, that user
+	// can see expenses by date
+	const params = useSearch({ from: '/' });
+	console.log('params', params);
 
 	const { data: expense, error: expenseError } = useSWR<Expense[]>(
 		'/expenses',
