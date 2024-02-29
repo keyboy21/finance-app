@@ -11,7 +11,7 @@
 				"useKeyWithClickEvents": "off"
 			}
 		},
-		"ignore": [".next", "node_modules"]
+		"ignore": [".next", "node_modules", "./src\routeTree.gen.ts"]
 	},
 	"javascript": {
 		"formatter": {
@@ -20,6 +20,6 @@
 		}
 	},
 	"formatter": {
-		"ignore": [".next", "node_modules"]
+		"ignore": [".next", "node_modules","./src\routeTree.gen.ts"]
 	}
 }

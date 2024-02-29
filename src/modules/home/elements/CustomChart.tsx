@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import { time } from '~/libs/time.lib';
 import { Expense, Income } from '~/types/all.types';
 
-export const CustomAreaChart: FC<AreaChatProps> = ({ expense, income }) => {
+export const CustomChart: FC<AreaChatProps> = ({ expense, income }) => {
 	const valueFormatter = (number: number) =>
 		`$ ${new Intl.NumberFormat('en').format(number).toString()}`;
 

@@ -8,30 +8,34 @@ import {
 import { NotebookText, Trash2, XCircle } from 'lucide-react';
 import { FC, useState } from 'react';
 import { useSWRConfig } from 'swr';
-import { deleteIncome } from '~/api/income/delete.income.api';
+import { deleteExpense } from '~/api/expense/delete.expense.api';
 import { Heading } from '~/components/typography/Heading';
 import { Text } from '~/components/typography/Text';
 import { notify } from '~/libs/notify.lib';
 import { time } from '~/libs/time.lib';
-import { Income } from '~/types/all.types';
-import { EditIncome } from './EditIncome';
+import { Expense } from '~/types/all.types';
+import { EditExpense } from './EditExpense';
+import { useRouter } from '@tanstack/react-router';
 
-export const IncomeRow: FC<IncomeRowProps> = ({ income }) => {
+export const ExpenseRow: FC<ExpenseRowProps> = ({ expense }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isDeleteOpen, setDeleteIsOpen] = useState(false);
-
+	const router = useRouter();
 	const { mutate } = useSWRConfig();
 
 	const onDelete = async (id: string) => {
 		setDeleteIsOpen(false);
-		const res = await deleteIncome(id);
+		const res = await deleteExpense(id);
 		if (res.data) {
-			mutate('/incomes');
-			notify('Доход успешно удалень', {
+			mutate('/expenses');
+			notify('Расход успешно удалень', {
 				type: 'success',
 			});
+			router.preloadRoute({
+				to: '/expenses',
+			});
 		} else {
-			notify('Доход не удалень', {
+			notify('Расход не удалень', {
 				type: 'error',
 			});
 		}
@@ -39,13 +43,13 @@ export const IncomeRow: FC<IncomeRowProps> = ({ income }) => {
 
 	return (
 		<>
-			<TableRow className="gap-5 *:text-black" key={income.id}>
-				<TableCell className="w-5 ">{income.id}</TableCell>
-				<TableCell>{income.name}</TableCell>
-				<TableCell>{income.price} $</TableCell>
-				<TableCell className="w-5">{income.category}</TableCell>
+			<TableRow className="gap-5 *:text-black" key={expense.id}>
+				<TableCell className="w-5 ">{expense.id}</TableCell>
+				<TableCell>{expense.name}</TableCell>
+				<TableCell>{expense.price} $</TableCell>
+				<TableCell className="w-5">{expense.category}</TableCell>
 				<TableCell className="w-5">
-					{time(income.createdAt).format('DD-MM-YYYY')}
+					{time(expense.createdAt).format('DD-MM-YYYY')}
 				</TableCell>
 				<TableCell className="w-5">
 					<Button
@@ -58,9 +62,9 @@ export const IncomeRow: FC<IncomeRowProps> = ({ income }) => {
 					<Dialog open={isOpen} onClose={(val) => setIsOpen(val)} static={true}>
 						<DialogPanel>
 							<Heading className="text-lg font-semibold text-tremor-content-strong text-center">
-								Примечание к доходам
+								Примечание к расходам
 							</Heading>
-							<Text className="mt-2 text-center">{income.note}</Text>
+							<Text className="mt-2 text-center">{expense.note}</Text>
 						</DialogPanel>
 					</Dialog>
 				</TableCell>
@@ -73,7 +77,7 @@ export const IncomeRow: FC<IncomeRowProps> = ({ income }) => {
 						>
 							Удалить
 						</Button>
-						<EditIncome id={income.id} income={income} />
+						<EditExpense id={expense.id} expense={expense} />
 					</div>
 					<Dialog
 						open={isDeleteOpen}
@@ -97,7 +101,7 @@ export const IncomeRow: FC<IncomeRowProps> = ({ income }) => {
 									icon={Trash2}
 									color="red"
 									className="mt-8"
-									onClick={() => onDelete(income.id)}
+									onClick={() => onDelete(expense.id)}
 								>
 									Удалить
 								</Button>
@@ -110,6 +114,6 @@ export const IncomeRow: FC<IncomeRowProps> = ({ income }) => {
 	);
 };
 
-type IncomeRowProps = {
-	income: Income;
+type ExpenseRowProps = {
+	expense: Expense;
 };
