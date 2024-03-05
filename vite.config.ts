@@ -7,6 +7,8 @@ export default defineConfig({
 	plugins: [splitVendorChunkPlugin(), react(), TanStackRouterVite()],
 	server: {
 		port: 3000,
+		strictPort: true,
+		host: true,
 	},
 	build: {
 		rollupOptions: {
