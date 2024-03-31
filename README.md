@@ -27,7 +27,3 @@ npm run dev
 ```
 
 After building, you'll be able to visit the dev version of the project on the following URL: <http://localhost:3000>.
-
-## License
-
-[MIT](https://choosealicense.com/licenses/mit/)
